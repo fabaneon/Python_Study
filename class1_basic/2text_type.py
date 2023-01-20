@@ -10,6 +10,3 @@ print("'hellow.replace('low','OOO')'","hellow".replace('low','OOO'))
 # 문자열 치환 함수
 
 a = 1
-print()
-print()
-print()
