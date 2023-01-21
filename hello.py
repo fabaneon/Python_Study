@@ -10,48 +10,11 @@ form = cgi.FieldStorage()
 
 if 'id' in form:
     pageId = form["id"].value
-    if pageId == "welcome":
-
-        article = '''
-          
-            <p>
-                Welcome to my WebPage, Programed with Python!
-            </p>
-            <p>
-                Check out the other article to use navigator link at above.
-            </p>
-        
-        '''
-    elif pageId == "about":
-        article = '''
-           
-            <p>
-                The fuck is this?
-            </p>
-            <p>
-                From now on, I'm studying the basic level of Python<br/>
-                well fine AI that handling Bigdata made with Python, that's My goal.
-            </p>
-        
-        '''
-    elif pageId == "contact":
-        article = '''
-           
-            <p>
-                Not Yet
-            </p>
-            <p>
-                Sry but, not yet.
-            </p>
-        
-        '''
-    
+    article = open('hello_data/'+pageId, 'r').read()
 else:
     pageId = "welcome"
-    article = "welcome to our page"
+    article = "Check out the other article to use navigator link at above."
     
-
-
 print('''<!DOCTYPE html>
 <html>
     <head>
