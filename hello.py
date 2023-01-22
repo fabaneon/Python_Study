@@ -14,7 +14,26 @@ form = cgi.FieldStorage()
 
 if 'id' in form:
     pageId = form["id"].value
-    article = open('hello_data/'+pageId, 'r').read()
+    if pageId == 'create':
+        article = '''
+        <form action="create_function.py" method="post">
+            <p>
+               <input required name="title" type="text" placeholder="new Document Title"/>
+            </p>
+            <p>   
+                <textarea required name="article" row="4" placeholder="new Document Article"></textarea>
+            </p>
+            <p>   
+                <input type="submit"/>
+            </p>
+        </form>
+        
+        '''
+    else:
+        
+        article = open('hello_data/'+pageId, 'r').read()
+        
+    
 else:
     pageId = "welcome"
     article = "Check out the other article to use navigator link at above."
@@ -34,6 +53,7 @@ print('''<!DOCTYPE html>
             {nav}
         </ol>
         <p>
+            <a href='hello.py?id=create'>create</a>
             <h2>
                 {title}
             </h2>
@@ -49,3 +69,4 @@ print('''<!DOCTYPE html>
            nav=navbutton
           
           ))
+
