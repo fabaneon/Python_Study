@@ -2,11 +2,15 @@
 print("Content-Type:text/html")
 print()
 
-import cgi
+import cgi, os
+
+
+navlist = os.listdir('hello_data')
+navbutton = ''
+for links in navlist:
+    navbutton = navbutton + '<li><a href="hello.py?id={name}">{name}</a></li>'.format(name=links)
 
 form = cgi.FieldStorage()
-
-
 
 if 'id' in form:
     pageId = form["id"].value
@@ -27,9 +31,7 @@ print('''<!DOCTYPE html>
             <a href="hello.py">Welcome To Python Web Page</a>
         </h1>
         <ol>
-            <li><a href="hello.py?id=welcome">Welcome</a></li>
-            <li><a href="hello.py?id=about">about</a></li>
-            <li><a href="hello.py?id=contact">contact</a></li>
+            {nav}
         </ol>
         <p>
             <h2>
@@ -41,4 +43,9 @@ print('''<!DOCTYPE html>
         
     </body>
 </html>
-'''.format(title=pageId,article=article))
+'''.format(
+            title=pageId,
+           article=article,
+           nav=navbutton
+          
+          ))
