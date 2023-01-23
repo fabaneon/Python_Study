@@ -2,7 +2,7 @@
 print("Content-Type:text/html")
 print()
 
-import cgi, os
+import cgi, os, crud
 
 # os 모듈 / 운영체제에서 제공되는 여러 기능
 navlist = os.listdir('hello_data')
@@ -27,50 +27,9 @@ if 'id' in form:
 
     '''.format(pid=pageId)
     if mode == 'update':
-        print('updatemode')
-        print(pageId)
-        file_article = open('hello_data/'+pageId, 'r').read()
-        
-        article = '''
-        <form action="edit_function.py" method="post">
-            <input type="hidden" name="mode" value="update"/>
-            <input type="hidden" name="orginal_title" value="{form_defualt_title}">
-            <p>
-               <input required name="title" type="text" value="{form_defualt_title}">
-            </p>
-            <p>   
-                <textarea required name="article" row="4" width="80px" height="60px">
-                    {form_default_article}
-                </textarea>
-            </p>
-            <p>   
-                <input type="submit"/>
-            </p>
-        </form>
-
-        '''.format(
-                    form_defualt_title=pageId,
-                  form_default_article=file_article
-                  )
-        
+        article = crud.update(pageId)        
     elif mode == 'delete':
-        article = '''
-        <form action="edit_function.py" method="post">
-            <input type="hidden" name="mode" value="delete"/>
-            <input type="hidden" name="title" value="{form_defualt_title}">
-            <p>
-                <h2>Are you sure delete this page?</h2>
-            </p>
-            <p>   
-                <input type="submit" value="Yes"/>
-            </p>
-        </form>
-
-        '''.format(
-                    form_defualt_title=pageId,
-                  
-                  )
-        
+        article = crud.delete(pageId)        
     else:
         mode = 'read'
         article = open('hello_data/'+pageId, 'r').read()
@@ -80,30 +39,12 @@ else:
     if mode == 'create':
         pageId = "create"
         option = "<li><a href='hello.py'>back</a></li>"
-        article = '''
-            <form action="edit_function.py" method="post">
-                <input type="hidden" name="mode" value="create"/>
-                <p>
-                   <input required name="title" type="text" placeholder="new Document Title"/>
-                </p>
-                <p>   
-                    <textarea required name="article" row="4" placeholder="new Document Article"></textarea>
-                </p>
-                <p>   
-                    <input type="submit"/>
-                </p>
-            </form>
-                   '''
+        article = crud.create()      
     else:
         print('welcome')
         option = "<a href='hello.py?mode=create'>create</a>"
         pageId = "welcome"
         article = "Check out the other article to use navigator link at above."
-    
-    
-    
-    
-    
     
 print('''<!DOCTYPE html>
 <html>
