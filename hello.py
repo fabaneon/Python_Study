@@ -7,21 +7,23 @@ import cgi, os
 # os 모듈 / 운영체제에서 제공되는 여러 기능
 navlist = os.listdir('hello_data')
 navbutton = ''
-
+mode = 'read'
 for links in navlist:
-    navbutton = navbutton + '<li><a href="hello.py?id={name}">{name}</a></li>'.format(name=links)
+    navbutton = navbutton + '<li><a href="hello.py?id={name}&mode=read">{name}</a></li>'.format(name=links)
 
 form = cgi.FieldStorage()
 
 if 'id' in form:
     pageId = form["id"].value
+    mode = form['mode'].value
     option = '''
-            <li><a href='hello.py?id={}'>update</a>
+            <li><a href='hello.py?id={}&mode=update'>update</a>
             <a href='hello.py'>back</a>
     '''.format(pageId)
     if pageId == 'create':
         article = '''
-        <form action="create_function.py" method="post">
+        <form action="edit_function.py" method="post">
+            <input type="hidden" name="mode" value="create"/>
             <p>
                <input required name="title" type="text" placeholder="new Document Title"/>
             </p>
@@ -34,14 +36,17 @@ if 'id' in form:
         </form>
         
         '''
-    elif 'update' in form:
+    elif mode == 'update':
         print('updatemode')
+        print(pageId)
         file_article = open('hello_data/'+pageId, 'r').read()
+        
         article = '''
-        <form action="create_function.py" method="post">
-               <input name="pageId" type="hidden" value={form_default_title}/>
+        <form action="edit_function.py" method="post">
+            <input type="hidden" name="mode" value="update"/>
+            <input type="hidden" name="orginal_title" value="{form_defualt_title}">
             <p>
-               <input required name="title" type="text" value="{form_defualt_title}"/>
+               <input required name="title" type="text" value="{form_defualt_title}">
             </p>
             <p>   
                 <textarea required name="article" row="4">
@@ -52,15 +57,16 @@ if 'id' in form:
                 <input type="submit"/>
             </p>
         </form>
-        
-        
-        
-        '''.format(
-                    form_default_title=pageId,
+
+'''.format(
+                    form_defualt_title=pageId,
                   form_default_article=file_article
                   )
+        
+        print('updatemode')
     else:
         print(pageId)
+        mode = 'read'
         article = open('hello_data/'+pageId, 'r').read()
         
     
@@ -69,6 +75,11 @@ else:
     option = "<a href='hello.py?id=create'>create</a>"
     pageId = "welcome"
     article = "Check out the other article to use navigator link at above."
+    
+    
+    
+    
+    
     
 print('''<!DOCTYPE html>
 <html>
@@ -91,13 +102,13 @@ print('''<!DOCTYPE html>
             </h2>
         </p>
         
-        {article}
+        {art}
         
     </body>
 </html>
 '''.format(
             title=pageId,
-           article=article,
+           art=article,
            nav=navbutton,
           optionbutton=option
           ))
