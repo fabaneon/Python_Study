@@ -8,10 +8,30 @@ def create():
             <form action="process_edit.py" method="post">
                 <input type="hidden" name="mode" value="create"/>
                 <p>
-                   <input required name="title" type="text" placeholder="new Document Title"/>
+                   <input required name="title" type="text" 
+                     style="
+                        width:120px; 
+                        height:20px; 
+                        border:1px solid rgba(255,0,0,0.2);
+                        resize:none;
+                    
+                    " 
+
+                   
+                   
+                   placeholder="new Document Title"/>
                 </p>
                 <p>   
-                    <textarea required name="article" row="4" placeholder="new Document Article"></textarea>
+                    <textarea required name="article" 
+                    style="
+                        width:300px; 
+                        height:20.25em; 
+                        border:1px solid rgba(255,0,0,0.2);
+                        resize:none;
+                    
+                    " 
+                    
+                    placeholder="new Document Article"></textarea>
                 </p>
                 <p>   
                     <input type="submit"/>
@@ -33,10 +53,26 @@ def update(pageId):
             <input type="hidden" name="mode" value="update"/>
             <input type="hidden" name="orginal_title" value="{form_defualt_title}">
             <p>
-               <input required name="title" type="text" value="{form_defualt_title}">
+               <input required name="title" type="text"
+                     style="
+                        width:120px; 
+                        height:20px; 
+                        border:1px solid rgba(255,0,0,0.2);
+                        resize:none;
+                    
+                    " 
+               value="{form_defualt_title}">
             </p>
             <p>   
-                <textarea required name="article" row="4" width="80px" height="60px">
+                <textarea required name="article" 
+                    style="
+                        width:300px; 
+                        height:20.25em; 
+                        border:1px solid rgba(255,0,0,0.2);
+                        resize:none;
+                    
+                    " 
+                ">
                     {form_default_article}
                 </textarea>
             </p>
@@ -73,4 +109,8 @@ def delete(pageId):
                       )
         return(article)
 
-    
+def TagExchanger(article):
+        article = article.replace('<','&lt;')
+        article = article.replace('>','&gt;')
+        article = article.replace('\n','<br>')
+        return(article)

@@ -27,19 +27,23 @@ if 'id' in form:
 
     '''.format(pid=pageId)
     if mode == 'update':
-        article = crud.update(pageId)        
+        article = crud.update(pageId)
+        
     elif mode == 'delete':
         article = crud.delete(pageId)        
     else:
         mode = 'read'
         article = open('hello_data/'+pageId, 'r').read()
+        article = crud.TagExchanger(article)
         
-    
+
+
 else:
     if mode == 'create':
         pageId = "create"
         option = "<li><a href='hello.py'>back</a></li>"
-        article = crud.create()      
+        article = crud.create() 
+
     else:
         print('welcome')
         option = "<a href='hello.py?mode=create'>create</a>"
